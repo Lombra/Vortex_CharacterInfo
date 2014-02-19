@@ -1,0 +1,5 @@
+package-as: Vortex_CharacterInfo
+
+required-dependencies:
+    - vortex
+    - datastore_characters
