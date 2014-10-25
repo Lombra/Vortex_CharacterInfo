@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Vortex: CharacterInfo
 ## Version: @project-version@
 ## Author: Lombra

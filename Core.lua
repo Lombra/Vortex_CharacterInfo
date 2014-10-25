@@ -67,10 +67,10 @@ xp:SetPoint("TOP", location, "BOTTOM", 0, -8)
 
 
 local money = modelFrame:CreateFontString(nil, nil, "GameFontHighlight")
-money:SetPoint("BOTTOM", 0, 104)
+money:SetPoint("BOTTOM", 0, 98)
 
 local lastUpdate = modelFrame:CreateFontString(nil, nil, "GameFontHighlightSmall")
-lastUpdate:SetPoint("BOTTOM", 0, 84)
+lastUpdate:SetPoint("BOTTOM", 0, 78)
 lastUpdate:SetTextColor(0.75, 0.75, 0.75)
 
 local FIRST_NUMBER_CAP = FIRST_NUMBER_CAP:lower()
@@ -100,18 +100,17 @@ function Character:UpdateUI(character)
 	guild:SetText(guildName and "<"..DataStore:GetGuildInfo(character)..">")
 	
 	local level = DataStore:GetCharacterLevel(character)
-	class:SetFormattedText(level and "%s %d %s %s" or "", LEVEL, level, race, DataStore:GetCharacterClass(character))
+	class:SetFormattedText(level and TOOLTIP_UNIT_LEVEL_RACE_CLASS or "", level, race, DataStore:GetCharacterClass(character))
 	
 	itemLevel:SetFormattedText("Item level: |cffffffff%d/%d", DataStore:GetAverageItemLevel(character))
 	
 	xp:SetShown(level and level < MAX_PLAYER_LEVEL and not DataStore:IsXPDisabled(character))
 	if level then
-		if DataStore:IsResting(character) then
-			xp:SetFormattedText("%s/%s (%d%%) %d%% rested", short(DataStore:GetXP(character)), short(DataStore:GetXPMax(character)), DataStore:GetXPRate(character), DataStore:GetRestXPRate(character))
-			-- xp:SetFormattedText("%d%% (%d%% rested)", DataStore:GetXPRate(character), DataStore:GetRestXPRate(character))
+		local restXPRate = DataStore:GetRestXPRate(character)
+		if restXPRate > 0 then
+			xp:SetFormattedText("%s/%s (%d%%) %d%% rested", short(DataStore:GetXP(character)), short(DataStore:GetXPMax(character)), DataStore:GetXPRate(character), min(100, restXPRate))
 		else
-			xp:SetFormattedText("%d/%d (%d%%)", DataStore:GetXP(character), DataStore:GetXPMax(character), DataStore:GetXPRate(character))
-			xp:SetFormattedText("%d%%", DataStore:GetXPRate(character))
+			xp:SetFormattedText("%s/%s (%d%%)", short(DataStore:GetXP(character)), short(DataStore:GetXPMax(character)), DataStore:GetXPRate(character))
 		end
 	end
 	
