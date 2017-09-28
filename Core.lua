@@ -2,6 +2,8 @@ local Character = Vortex:GetModule("Character")
 
 local frame = Character.ui
 
+local MAX_LOGOUT_TIMESTAMP = 5000000000
+
 local modelFrame = frame.modelFrame
 
 local tl = modelFrame:CreateTexture(nil, "BACKGROUND")
@@ -34,7 +36,7 @@ local backgroundTextures = {
 local BackgroundOverlay = modelFrame:CreateTexture(nil, "BORDER")
 BackgroundOverlay:SetPoint("TOPLEFT", tl)
 BackgroundOverlay:SetPoint("BOTTOMRIGHT", br, 0, 52)
-BackgroundOverlay:SetTexture(0, 0, 0)
+BackgroundOverlay:SetColorTexture(0, 0, 0)
 
 local brightness = {
 	BLOODELF = 0.8,
@@ -119,7 +121,9 @@ function Character:UpdateUI(character)
 	money:SetText(level and GetMoneyString(DataStore:GetMoney(character)))
 	
 	local lastUpdated = DataStore:GetLastLogout(character)
-	lastUpdate:SetText(lastUpdated and lastUpdated > 0 and ("Last updated: "..date("%Y-%m-%d %H:%M", lastUpdated)))
+	if lastUpdated and lastUpdated > 0 and lastUpdated ~= MAX_LOGOUT_TIMESTAMP then
+		lastUpdate:SetFormattedText("Last updated: %s", date("%Y-%m-%d %H:%M", lastUpdated))
+	end
 	
 	local texture = DressUpTexturePath(fileName)
 	for i = 1, 4 do
