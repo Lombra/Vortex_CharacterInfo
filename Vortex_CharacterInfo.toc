@@ -1,7 +1,8 @@
-## Interface: 70300
+## Interface: 80000
 ## Title: Vortex: CharacterInfo
 ## Version: @project-version@
 ## Author: Lombra
+
 ## RequiredDeps: Vortex, DataStore_Characters
 
 Core.lua
